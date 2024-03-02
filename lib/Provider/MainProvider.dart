@@ -21,6 +21,7 @@ class MainProvider extends ChangeNotifier{
   TextEditingController jobCT = TextEditingController();
 
 
+  List<String> homeList=['Members Registration','Prayer Time'];
   MainProvider(){
     lockApp();
   }

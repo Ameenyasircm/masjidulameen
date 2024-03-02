@@ -1,472 +1,216 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
 import '../Provider/MainProvider.dart';
 import '../constants/my_colors.dart';
 import '../constants/my_functions.dart';
+import 'addMemberScreen.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
    HomeScreen({Key? key}) : super(key: key);
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  int activeIndex = 0;
+  List<String> carouselImages = [
+    "assets/image.jpg",
+    "assets/image.jpg",
+  ];
+
+  List<String> images=['assets/ttt.png','assets/images.jpg',];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
-      floatingActionButton:  Padding(
-        padding: const EdgeInsets.only(bottom: 25.0),
-        child: InkWell(onTap: (){
-    final FormState? form = _formKey.currentState;
-    if (form!.validate()) {
-
-    }
-
-        },
-          child: Container(
-            alignment: Alignment.center,
-            height: 50,
-            width: 324,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                gradient: const LinearGradient(
-                  colors: [
-                    searchBartext,
-                    searchBartext2,
-                  ],
-                )),
-            child: Text(
-                  'Save',
-              style: const TextStyle(
-                  color: clFFFFFF,
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
-        ),
-      ),
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        // leading: InkWell(onTap: (){
-        //   finish(context);
-        // },
-        //   child: const Icon(
-        //     Icons.arrow_back_ios,
-        //     color: clBlack,
-        //     size: 18,
-        //   ),
-        // ),
-        centerTitle: true,
-        title: const Text(
-          "Registration Form",
-          style: TextStyle(
-            color: clBlack,
-            fontSize: 18,
-            fontWeight: FontWeight.w500,
-            fontFamily: 'Poppins',
-          ),
-        ),
-      ),
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
-        child: SingleChildScrollView(
-          child: Form(
-            key: _formKey,
-            child: Column(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          children: [
+            SizedBox(height: 30,),
+            Row(
               children: [
-                SizedBox(height: 10,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        controller: value.nameCT,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Name',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Name',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter Name";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        controller: value.phoneCT,
-                        textAlign: TextAlign.start,
-                        maxLength: 10,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Phone Number',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Phone Number',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter Phone Number";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        controller: value.locationCT,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Location',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Location',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter Location";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        controller: value.addressCT,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Address',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Address',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter Address";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        controller: value.adharCT,
-                        maxLength: 12,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          counterText: '',
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'AdharNumber',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Adhar Number',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter AdharNumber";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        // controller: value.subplanNameCT,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Education Qualification',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Education Qualification',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Education Qualification";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 15,),
-                Consumer<MainProvider>(builder: (context, value, child) {
-                  return Container(
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(15),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.05),
-                            blurRadius: 11.76,
-                            offset: Offset(0, 3.9),
-                            spreadRadius: 0,
-                          )
-                        ]),
-                    child:
-                    Consumer<MainProvider>(builder: (context, value, child) {
-                      return TextFormField(
-                        // controller: value.subplanNameCT,
-                        textAlign: TextAlign.start,
-                        decoration: InputDecoration(
-                          // prefixIcon: Image.asset(
-                          //   'assets/TickIcon.png',
-                          //   scale: 1.5,
-                          // ),
-                          labelText: 'Job',
-                          labelStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          hintText: 'Job',
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintStyle: TextStyle(
-                            color: gray,
-                            fontSize: 14,
-                            fontFamily: 'Poppins',
-                            fontWeight: FontWeight.w400,
-                          ),
-                          border: border,
-                          focusedBorder: border,
-                          enabledBorder: border,
-                        ),
-                        validator: (value) {
-                          if (value!.trim().isEmpty) {
-                            return "Please Enter Job";
-                          } else {
-                            return null;
-                          }
-                        },
-                      );
-                    }),
-                  );
-                }),
-                SizedBox(height: 150,)
+                SizedBox(height: 50,width: 50,
+                    child: Image.asset('assets/masjid1.png',color: searchBartext,)),
+                SizedBox(width: 10,),
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text("Welcome!" ,style:TextStyle(
+                      color: welcomeBlue,
+                      fontSize:14,
+                      fontFamily: 'Montserrat-Bold',
+                      fontWeight: FontWeight.w700,
+                    )),
+                    Text("MASJIDUL AMEEN PAYYANAD" ,style:TextStyle(
+                      color: welcomeBlue,
+                      fontSize:14,
+                      fontFamily: 'Montserrat-Bold',
+                      fontWeight: FontWeight.w700,
+                    )),
+                  ],
+                ),
               ],
             ),
-          ),
+            SizedBox(height:20,),
+            CarouselSlider.builder(
+              itemCount: carouselImages.length,
+              itemBuilder: (context, index, realIndex) {
+                //final image=value.imgList[index];
+                final image = carouselImages[index];
+                return buildImage(image, context);
+              },
+              options: CarouselOptions(
+                  height: 180,
+                  viewportFraction: 1,
+                  animateToClosest: true,
+                  padEnds: true,
+                  autoPlay: true,
+                  initialPage: 1,
+                  enlargeStrategy:
+                  CenterPageEnlargeStrategy.values[2],
+                  enlargeCenterPage: true,
+                  autoPlayInterval: const Duration(seconds: 3),
+                  onPageChanged: (index, reason) {
+                    setState(() {
+                      activeIndex = index;
+                    });
+                  }),
+            ),
+            buildIndiCator(
+                carouselImages.length, context, activeIndex),
+            SizedBox(height: 20,),
+            Consumer<MainProvider>(
+                builder: (context,value,child) {
+                  return ListView.builder(
+                    shrinkWrap: true,
+                      padding: const EdgeInsets.only(
+                        top: 10,
+                      ),
+                      itemCount: value.homeList.length,
+                      physics: const ScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemBuilder:
+                          (BuildContext context1, int index) {
+                        var item = value.homeList[index];
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: 25.0),
+                          child: InkWell(onTap:(){
+                            if(index==0){
+                              callNext(AddMemberScreen(), context);
+                            }
+                          },
+                            child: Container(
+                              padding: const EdgeInsets.all(10),
+                              clipBehavior: Clip.antiAlias,
+                              decoration: ShapeDecoration(
+
+                                color: Colors.white,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                  BorderRadius.circular(22),
+                                ),
+                                shadows: const [
+                                  BoxShadow(
+                                    color: Color(0x14000000),
+                                    blurRadius: 5.15,
+                                    offset: Offset(0, 2.58),
+                                    spreadRadius: 0,
+                                  )
+                                ],
+                              ),
+                              child: Row(
+                                children: [
+                                  Expanded(
+                                    flex: 1,
+                                    child: Container(
+                                      height: 54,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                          fit: BoxFit.cover,
+                                            image: AssetImage(images[index])
+                                        ),
+                                        color: cl000000
+                                            .withOpacity(0.10),
+                                        borderRadius:
+                                        BorderRadius.circular(19),
+                                      ),
+                                    ),
+                                  ),
+                                  Expanded(
+                                      flex: 4,
+                                      child: Padding(
+                                        padding:
+                                        const EdgeInsets.only(
+                                            left: 8.0),
+                                        child: Column(
+                                          mainAxisAlignment:
+                                          MainAxisAlignment
+                                              .center,
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .start,
+                                          children: [
+                                            Text(
+                                              item,
+                                              style: const TextStyle(
+                                                color: Colors.black,
+                                                fontSize: 14,
+                                                fontFamily: 'Poppins',
+                                                fontWeight:
+                                                FontWeight.w500,
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      )),
+                                  Expanded(child: Icon(Icons.arrow_forward_ios_sharp,color: Colors.black,size: 20,))
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      });
+                }
+            ),
+
+          ],
         ),
       ),
+
     );
   }
+
+   buildImage(var image, context) {
+     return Container(
+       decoration: BoxDecoration(
+           borderRadius: BorderRadius.circular(20),
+           image: DecorationImage(image: AssetImage(image), fit: BoxFit.cover)),
+     );
+   }
+
+   buildIndiCator(int count, BuildContext context, int activeIndex) {
+     int imgCount = count;
+     return Center(
+       child: Padding(
+         padding: const EdgeInsets.only(top: 8),
+         child: AnimatedSmoothIndicator(
+           activeIndex: activeIndex,
+           count: count,
+           effect: ExpandingDotsEffect(
+               dotWidth: 7,
+               dotHeight: 7,
+               strokeWidth: 1,
+               paintStyle: PaintingStyle.fill,
+               activeDotColor: carousel,
+               dotColor: Colors.grey.shade300),
+         ),
+       ),
+     );
+   }
 }
-final OutlineInputBorder border = OutlineInputBorder(
-  borderSide: const BorderSide(color: Colors.white, width: 1.0),
-  borderRadius: BorderRadius.circular(20),
-);
