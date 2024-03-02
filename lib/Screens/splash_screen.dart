@@ -37,14 +37,15 @@ class _SplashScreenState extends State<SplashScreen> {
     mainProvider.lockApp();
 
     localDB();
-    LoginProvider loginProvider =
-    Provider.of<LoginProvider>(context, listen: false);
+    // LoginProvider loginProvider =
+    // Provider.of<LoginProvider>(context, listen: false);
     Timer(const Duration(seconds: 3), () async {
+
       var user = prefs.getString("appwrite_token");
       if (user == null) {
         callNextReplacement(HomeScreen(loginPhone: '',), context);
       }else{
-        loginProvider.userAuthorized(prefs.getString("phone_number").toString(), context, "",
+        mainProvider.userAuthorized(prefs.getString("phone_number").toString(), context, "",
             '', prefs.getString("password").toString());
 
       }
