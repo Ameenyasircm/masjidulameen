@@ -264,7 +264,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: InkWell(
           onTap: () {
             setState(() {
-              callNextReplacement(HomeScreen(), context);
+              // callNextReplacement(HomeScreen(), context);
               if (currentSate ==
                   MobileVarificationState.SHOW_MOBILE_FORM_STATE) {
                 if (fixedOtpList.contains(phoneNumberCT.text.toString())) {

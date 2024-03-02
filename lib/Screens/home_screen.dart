@@ -9,7 +9,8 @@ import '../constants/my_functions.dart';
 import 'addMemberScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-   HomeScreen({Key? key}) : super(key: key);
+  String loginPhone;
+   HomeScreen({Key? key,required this.loginPhone}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();

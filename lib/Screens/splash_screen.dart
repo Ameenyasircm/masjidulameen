@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:instagram_clone/Screens/home_screen.dart';
 import 'package:instagram_clone/Screens/loginscreen.dart';
 import 'package:instagram_clone/constants/my_functions.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +40,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 3), () async {
       var user = prefs.getString("appwrite_token");
       if (user == null) {
-        callNextReplacement(LoginScreen(from: "", vId: ""), context);
+        callNextReplacement(HomeScreen(loginPhone: '',), context);
       }else{
 
 
@@ -61,7 +63,14 @@ class _SplashScreenState extends State<SplashScreen> {
                   "assets/masjid1.png",
                   width: 150,
                   height: 150,color: searchBartext,
-                ),),
+                ),),SizedBox(height: 20,),
+            Text("Masjidul Ameen \n Payyanad",textAlign: TextAlign.center,
+                style: TextStyle( color: myblack.withOpacity(0.8),
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,fontFamily: "Poppins"
+                )
+
+                )
           ],
         ),
 
