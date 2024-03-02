@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 
 import '../Provider/MainProvider.dart';
 import '../constants/my_colors.dart';
+import '../constants/my_functions.dart';
 class AddMemberScreen extends StatelessWidget {
    AddMemberScreen({Key? key}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
@@ -47,15 +48,15 @@ class AddMemberScreen extends StatelessWidget {
       ),
       appBar: AppBar(
         backgroundColor: Colors.transparent,
-        // leading: InkWell(onTap: (){
-        //   finish(context);
-        // },
-        //   child: const Icon(
-        //     Icons.arrow_back_ios,
-        //     color: clBlack,
-        //     size: 18,
-        //   ),
-        // ),
+        leading: InkWell(onTap: (){
+          finish(context);
+        },
+          child: const Icon(
+            Icons.arrow_back_ios,
+            color: clBlack,
+            size: 20,
+          ),
+        ),
         centerTitle: true,
         title: const Text(
           "Registration Form",
@@ -303,8 +304,7 @@ class AddMemberScreen extends StatelessWidget {
                               builder: (context, value1,
                                   child) {
                                 return Checkbox(
-                                  activeColor: const Color(
-                                      0xFF3E4FA3),
+                                  activeColor: searchBartext,
                                   // shape:
                                   // const CircleBorder(),
                                   checkColor: Colors.white,
@@ -324,8 +324,7 @@ class AddMemberScreen extends StatelessWidget {
                               builder: (context, value1,
                                   child) {
                                 return Checkbox(
-                                  activeColor: const Color(
-                                      0xFF3E4FA3),
+                                  activeColor: searchBartext,
                                   // shape:
                                   // const CircleBorder(),
                                   checkColor: Colors.white,
@@ -344,6 +343,64 @@ class AddMemberScreen extends StatelessWidget {
                     )
                   ],
                 ),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return
+                   value.yesBool?
+                   Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.kidsCountCT,
+                        maxLength: 12,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Number of Kids',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Number of Kids',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Kids Count";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  ):SizedBox();
+                }),
                 SizedBox(height: 15,),
                 Consumer<MainProvider>(builder: (context, value, child) {
                   return Container(

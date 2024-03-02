@@ -16,6 +16,7 @@ class MainProvider extends ChangeNotifier{
   TextEditingController phoneCT = TextEditingController();
   TextEditingController addressCT = TextEditingController();
   TextEditingController adharCT = TextEditingController();
+  TextEditingController kidsCountCT = TextEditingController();
   TextEditingController locationCT = TextEditingController();
   TextEditingController qualificationCT = TextEditingController();
   TextEditingController jobCT = TextEditingController();
