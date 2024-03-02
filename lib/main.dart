@@ -1,11 +1,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:instagram_clone/Providers/LoginProvider.dart';
-import 'package:instagram_clone/Screens/splashScreen.dart';
 import 'package:provider/provider.dart';
 
-import 'Providers/main_provider.dart';
+import 'Provider/MainProvider.dart';
+import 'Screens/splash_screen.dart';
+
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,7 +26,6 @@ class MyApp extends StatelessWidget {
     return  MultiProvider(
         providers:[
         ChangeNotifierProvider(create: (context)=>MainProvider(),),
-        ChangeNotifierProvider(create: (context)=>LoginProvider(),),
         ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

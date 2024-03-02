@@ -1,206 +1,472 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import '../Provider/MainProvider.dart';
+import '../constants/my_colors.dart';
+import '../constants/my_functions.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+   HomeScreen({Key? key}) : super(key: key);
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
-    final height = MediaQuery.of(context).size.height;
     return Scaffold(
-      appBar: AppBar(
-        title: Image.asset(
-          'assets/Instagram_logo.png',
-          scale: 4,
+      backgroundColor: Colors.white,
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
+      floatingActionButton:  Padding(
+        padding: const EdgeInsets.only(bottom: 25.0),
+        child: InkWell(onTap: (){
+    final FormState? form = _formKey.currentState;
+    if (form!.validate()) {
+
+    }
+
+        },
+          child: Container(
+            alignment: Alignment.center,
+            height: 50,
+            width: 324,
+            decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(25),
+                gradient: const LinearGradient(
+                  colors: [
+                    searchBartext,
+                    searchBartext2,
+                  ],
+                )),
+            child: Text(
+                  'Save',
+              style: const TextStyle(
+                  color: clFFFFFF,
+                  fontFamily: 'Poppins',
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600),
+            ),
+          ),
         ),
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          Image.asset(
-            'assets/addPost.png',
-            scale: 3,
-          ),
-          Image.asset(
-            'assets/heart.png',
-            scale: 3,
-          ),
-          Image.asset(
-            'assets/message.png',
-            scale: 3,
-          ),
-        ],
       ),
-      body: Column(
-        children: [
-          Container(
-            height: 130,
-            // color: Colors.teal,
-            width: width,
-            child: ListView.builder(
-                padding: EdgeInsets.only(top: 10),
-                // physics: const ClampingScrollPhysics(),
-                itemCount: 15,
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.horizontal,
-                itemBuilder: (BuildContext context, int index) {
-                  // var item = value.mostWatchedList[index];
-                  return Padding(
-                    padding: const EdgeInsets.only(right: 12.0, left: 15),
-                    child: Stack(
-                      children: [
-                        Column(
-                          children: [
-                            Container(
-                              decoration: index != 0
-                                  ? ShapeDecoration(
-                                      shape: OvalBorder(
-                                        side: BorderSide(
-                                            width: 2, color: Color(0xFFFFDD55)),
-                                      ),
-                                    )
-                                  : ShapeDecoration(
-                                      shape: OvalBorder(
-                                        side: BorderSide(
-                                          width: 0,
-                                        ),
-                                      ),
-                                    ),
-                              child: Container(
-                                  width: 80.0,
-                                  height: 80.0,
-                                  decoration: new BoxDecoration(
-                                    color: Colors.orange,
-                                    shape: BoxShape.circle,
-                                    image: DecorationImage(
-                                        fit: BoxFit.fill,
-                                        image: AssetImage('assets/man1.jpg')),
-                                  )),
-                            ),
-                            SizedBox(
-                              height: 4,
-                            ),
-                            index == 0 ? Text('Your Story') : Text('Ameen')
-                          ],
-                        ),
-                        index == 0
-                            ? Positioned(
-                                bottom: 40,
-                                left: 55,
-                                child: Container(
-                                  child: CircleAvatar(
-                                    radius: 12,
-                                    backgroundColor: Colors.white,
-                                    child: CircleAvatar(
-                                      radius: 10,
-                                      backgroundColor: Colors.blue,
-                                      child: Center(
-                                        child: Icon(
-                                          Icons.add,
-                                          color: Colors.white,
-                                          size: 15,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                              )
-                            : SizedBox()
-                      ],
-                    ),
-                  );
-                }),
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        // leading: InkWell(onTap: (){
+        //   finish(context);
+        // },
+        //   child: const Icon(
+        //     Icons.arrow_back_ios,
+        //     color: clBlack,
+        //     size: 18,
+        //   ),
+        // ),
+        centerTitle: true,
+        title: const Text(
+          "Registration Form",
+          style: TextStyle(
+            color: clBlack,
+            fontSize: 18,
+            fontWeight: FontWeight.w500,
+            fontFamily: 'Poppins',
           ),
-          Flexible(
-            child: ListView.builder(
-                // padding: EdgeInsets.only(top: 10),
-                // physics: const ClampingScrollPhysics(),
-                itemCount: 15,
-                physics: const ScrollPhysics(),
-                shrinkWrap: true,
-                scrollDirection: Axis.vertical,
-                itemBuilder: (BuildContext context, int index) {
-                  // var item = value.mostWatchedList[index];
-                  return Column(mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(bottom: 0.0),
-                        child: Container(
-                          height: 60,width: width,
-                          // color: Colors.yellow,
-                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Padding(
-                              padding: const EdgeInsets.only(left: 18.0),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 45,
-                                    height: 45,
-                                    decoration: ShapeDecoration(
-                                      image: DecorationImage(
-                                        image: AssetImage('assets/man1.jpg'),
-                                        fit: BoxFit.fill,
-                                      ),
-                                      shape: OvalBorder(),
-                                    ),
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.only(left: 10.0),
-                                    child: Text('yakoob', style: TextStyle(
-                                      color: Colors.black,
-                                      fontSize: 14,
-                                      fontFamily: 'Roboto',
-                                      fontWeight: FontWeight.w400,
-                                      // height: 0,
-                                      letterSpacing: 0.14,
-                                    ),),
-                                  )
-                                ],
-                              ),
-                            ),
-                            Padding(
-                              padding: const EdgeInsets.only(right: 8.0),
-                              child: Image.asset('assets/more.png',scale: 4,),
-                            )
-                          ],
-                        ),),
-                      ),
-                      Container(height: 500,
-                      decoration: BoxDecoration(
-                          // color: Colors.red,
-                        image: DecorationImage(fit: BoxFit.fill,
-                          image: AssetImage('assets/Rectangle 1.png')
-                        )
-                      ),),
-                      Container(height: 50,
-                      // color: Colors.green,
-                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Row(
-                            children: [
-                              SizedBox(width: 14,),
-                              Image.asset('assets/heart.png',scale: 3,),
-                              SizedBox(width: 14,),
-                              Image.asset('assets/comment.png',scale: 4,),
-                              SizedBox(width: 14,),
-                              Image.asset('assets/message.png',scale: 3,),
-
-                            ],
+        ),
+      ),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        child: SingleChildScrollView(
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                SizedBox(height: 10,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.nameCT,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Name',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 15.0),
-                            child: Image.asset('assets/Save.png',scale: 4,),
+                          hintText: 'Name',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
                           ),
-
-                        ],
-                      ),)
-                    ],
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter Name";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
                   );
                 }),
-          )
-        ],
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.phoneCT,
+                        textAlign: TextAlign.start,
+                        maxLength: 10,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Phone Number',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Phone Number',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter Phone Number";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.locationCT,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Location',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Location',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter Location";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.addressCT,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Address',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Address',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter Address";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        controller: value.adharCT,
+                        maxLength: 12,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          counterText: '',
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'AdharNumber',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Adhar Number',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter AdharNumber";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        // controller: value.subplanNameCT,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Education Qualification',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Education Qualification',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Education Qualification";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 15,),
+                Consumer<MainProvider>(builder: (context, value, child) {
+                  return Container(
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(15),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Color(0xff000000).withOpacity(0.05),
+                            blurRadius: 11.76,
+                            offset: Offset(0, 3.9),
+                            spreadRadius: 0,
+                          )
+                        ]),
+                    child:
+                    Consumer<MainProvider>(builder: (context, value, child) {
+                      return TextFormField(
+                        // controller: value.subplanNameCT,
+                        textAlign: TextAlign.start,
+                        decoration: InputDecoration(
+                          // prefixIcon: Image.asset(
+                          //   'assets/TickIcon.png',
+                          //   scale: 1.5,
+                          // ),
+                          labelText: 'Job',
+                          labelStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          hintText: 'Job',
+                          filled: true,
+                          fillColor: Colors.white,
+                          hintStyle: TextStyle(
+                            color: gray,
+                            fontSize: 14,
+                            fontFamily: 'Poppins',
+                            fontWeight: FontWeight.w400,
+                          ),
+                          border: border,
+                          focusedBorder: border,
+                          enabledBorder: border,
+                        ),
+                        validator: (value) {
+                          if (value!.trim().isEmpty) {
+                            return "Please Enter Job";
+                          } else {
+                            return null;
+                          }
+                        },
+                      );
+                    }),
+                  );
+                }),
+                SizedBox(height: 150,)
+              ],
+            ),
+          ),
+        ),
       ),
     );
   }
 }
+final OutlineInputBorder border = OutlineInputBorder(
+  borderSide: const BorderSide(color: Colors.white, width: 1.0),
+  borderRadius: BorderRadius.circular(20),
+);
