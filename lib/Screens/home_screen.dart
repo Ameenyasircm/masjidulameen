@@ -104,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(bottom: 25.0),
                           child: InkWell(onTap:(){
                             if(index==0){
+                              mainProvider.clearBool=false;
                               mainProvider.clear();
                               mainProvider.fetch();
                               callNext(AddMemberScreen(), context);

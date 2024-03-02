@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 
 import '../Provider/MainProvider.dart';
@@ -90,6 +91,34 @@ class AddMemberScreen extends StatelessWidget {
             key: _formKey,
             child: Column(
               children: [
+                SizedBox(height: 10,),
+                Align(alignment: Alignment.topRight,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 15.0),
+                    child: Row(mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Consumer<MainProvider>(
+                            builder: (context, value1,
+                                child) {
+                              return Checkbox(
+                                activeColor: searchBartext,
+                                // shape:
+                                // const CircleBorder(),
+                                checkColor: Colors.white,
+                                value: value1.clearBool,
+                                side: const BorderSide(
+                                    color: Colors.black,
+                                    width: 2),
+                                onChanged: (bool? value) {
+                                  value1.clr();
+                                },
+                              );
+                            }),
+                        Text('Clear All')
+                      ],
+                    ),
+                  ),
+                ),
                 SizedBox(height: 10,),
                 Consumer<MainProvider>(builder: (context, value, child) {
                   return Container(

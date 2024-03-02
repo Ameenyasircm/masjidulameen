@@ -25,6 +25,7 @@ class MainProvider extends ChangeNotifier{
   TextEditingController qualificationCT = TextEditingController();
   TextEditingController jobCT = TextEditingController();
 
+  bool clearBool=false;
   bool yesBool=false;
   bool noBool=false;
 
@@ -40,6 +41,12 @@ class MainProvider extends ChangeNotifier{
     jobCT.clear();
     yesBool=false;
     noBool=false;
+    notifyListeners();
+  }
+
+  clr(){
+    clear();
+    clearBool=true;
     notifyListeners();
   }
 
