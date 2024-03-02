@@ -134,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               if(index==0){
                                 mainProvider.clearBool=false;
                                 mainProvider.clear();
-                                mainProvider.fetch();
+                                // mainProvider.fetch();
                                 callNext(AddMemberScreen(), context);
                               }
                             },

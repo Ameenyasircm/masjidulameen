@@ -32,6 +32,7 @@ class _LoginScreenState extends State<LoginScreen> {
   TextEditingController phoneNumberCT = TextEditingController();
   TextEditingController countryCodeCT = TextEditingController();
   TextEditingController otpNumberCT = TextEditingController();
+  TextEditingController passwordCT = TextEditingController();
   LoginProvider loginProvider = LoginProvider();
 
   MobileVarificationState currentSate =
@@ -139,7 +140,7 @@ class _LoginScreenState extends State<LoginScreen> {
           userId: VerificationId, secret: otpNumberCT.text);
 
       try {
-        loginProvider.userAuthorized(phoneNumberCT.text, context, "LOGIN", tocken);
+        loginProvider.userAuthorized(phoneNumberCT.text, context, "LOGIN", tocken,'');
       } catch (e) {
         print(e.toString() + 'jepkslkds');
         const snackBar = SnackBar(
@@ -223,7 +224,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     Provider.of<LoginProvider>(context, listen: false);
 
                 loginProvider.userAuthorized(
-                    phoneNumberCT.text, context, "LOGIN", '');
+                    phoneNumberCT.text, context, "LOGIN", '','');
                 // callNextReplacement(HomeScreen(), context);
               }
             }
@@ -264,25 +265,31 @@ class _LoginScreenState extends State<LoginScreen> {
         child: InkWell(
           onTap: () {
             setState(() {
-              // callNextReplacement(HomeScreen(), context);
-              if (currentSate ==
-                  MobileVarificationState.SHOW_MOBILE_FORM_STATE) {
-                if (fixedOtpList.contains(phoneNumberCT.text.toString())) {
-                  setState(() {
-                    currentSate = MobileVarificationState.SHOW_OTP_FORM_STATE;
-                  });
-                } else {
-                  otpsend();
-                }
-              } else {
-                if (fixedOtpList.contains(phoneNumberCT.text)) {
-                  checkValueForKey(phoneNumberCT.text.toString(),
-                      otpNumberCT.text.toString());
-                } else {
-                  verify();
-                }
+              if (phoneNumberCT.text.length == 10 &&
+                  passwordCT.text.length == 6) {
+              loginProvider.userAuthorized(phoneNumberCT.text, context, 'LOGIN', '',passwordCT.text);
               }
             });
+
+              // callNextReplacement(HomeScreen(), context);
+            //   if (currentSate ==
+            //       MobileVarificationState.SHOW_MOBILE_FORM_STATE) {
+            //     if (fixedOtpList.contains(phoneNumberCT.text.toString())) {
+            //       setState(() {
+            //         currentSate = MobileVarificationState.SHOW_OTP_FORM_STATE;
+            //       });
+            //     } else {
+            //       otpsend();
+            //     }
+            //   } else {
+            //     if (fixedOtpList.contains(phoneNumberCT.text)) {
+            //       checkValueForKey(phoneNumberCT.text.toString(),
+            //           otpNumberCT.text.toString());
+            //     } else {
+            //       verify();
+            //     }
+            //   }
+            // });
           },
           child: Container(
             alignment: Alignment.center,
@@ -297,9 +304,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ],
                 )),
             child: Text(
-              currentSate == MobileVarificationState.SHOW_OTP_FORM_STATE
-                  ? 'Verify'
-                  : 'Get OTP',
+              // currentSate == MobileVarificationState.SHOW_OTP_FORM_STATE
+              //     ? 'Verify'
+              //     :
+            'Login',
               style: const TextStyle(
                   color: clFFFFFF,
                   fontFamily: 'Poppins',
@@ -351,10 +359,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 flex: 1,
                 child: Column(
                   children: [
-                    currentSate ==
-                            MobileVarificationState.SHOW_MOBILE_FORM_STATE
-                        ? mobileNumberWidget(context, flagUri)
-                        : otpWidget(),
+                    // currentSate ==
+                    //         MobileVarificationState.SHOW_MOBILE_FORM_STATE
+                    //     ?
+                    mobileNumberWidget(context, flagUri)
+                        // : otpWidget(),
                   ],
                 ))
 
@@ -379,7 +388,7 @@ class _LoginScreenState extends State<LoginScreen> {
             //Country
             //mobileNumber
             SizedBox(
-              height: 150,
+              // height: 150,
               width: MediaQuery.of(context).size.width,
               child: TextFormField(
                 controller: phoneNumberCT,
@@ -391,6 +400,46 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: InputDecoration(
                   contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
                   hintText: 'Mobile Number',
+                  helperText: "",
+                  hintStyle: TextStyle(color: searchBartext),
+
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: searchBartext,
+                    ),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color:searchBartext,
+                    ),
+                  ),
+                  errorBorder: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(20)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color:searchBartext,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            SizedBox(height: 10,),
+            SizedBox(
+              height: 150,
+              width: MediaQuery.of(context).size.width,
+              child: TextFormField(
+                controller: passwordCT,
+                keyboardType: TextInputType.number,
+                inputFormatters: [LengthLimitingTextInputFormatter(10)],
+                cursorColor: clBlack,
+                style: TextStyle(
+                    color: cl767676, fontFamily: 'Poppins', fontSize: 15),
+                decoration: InputDecoration(
+                  contentPadding: EdgeInsets.symmetric(vertical: 5,horizontal: 10),
+                  hintText: 'Password',
                   helperText: "",
                   hintStyle: TextStyle(color: searchBartext),
 
