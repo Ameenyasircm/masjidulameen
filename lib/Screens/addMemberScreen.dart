@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -291,6 +292,58 @@ class AddMemberScreen extends StatelessWidget {
                     }),
                   );
                 }),
+                SizedBox(height: 15,),
+                Column(crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text('Maritial Status',style: TextStyle(fontWeight: FontWeight.bold,fontFamily: 'Poppins'),),
+                    Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: [
+                        Row(children: [
+                          Consumer<MainProvider>(
+                              builder: (context, value1,
+                                  child) {
+                                return Checkbox(
+                                  activeColor: const Color(
+                                      0xFF3E4FA3),
+                                  // shape:
+                                  // const CircleBorder(),
+                                  checkColor: Colors.white,
+                                  value: value1.yesBool,
+                                  side: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2),
+                                  onChanged: (bool? value) {
+                                    value1.married();
+                                  },
+                                );
+                              }),
+                          Text('Married',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Poppins',fontSize: 15))
+                        ],),
+                        Row(children: [
+                          Consumer<MainProvider>(
+                              builder: (context, value1,
+                                  child) {
+                                return Checkbox(
+                                  activeColor: const Color(
+                                      0xFF3E4FA3),
+                                  // shape:
+                                  // const CircleBorder(),
+                                  checkColor: Colors.white,
+                                  value: value1.noBool,
+                                  side: const BorderSide(
+                                      color: Colors.black,
+                                      width: 2),
+                                  onChanged: (bool? value) {
+                                    value1.unmarried();
+                                  },
+                                );
+                              }),
+                          Text('UnMarried',style: TextStyle(fontWeight: FontWeight.w400,fontFamily: 'Poppins',fontSize: 15))
+                        ],),
+                      ],
+                    )
+                  ],
+                ),
                 SizedBox(height: 15,),
                 Consumer<MainProvider>(builder: (context, value, child) {
                   return Container(

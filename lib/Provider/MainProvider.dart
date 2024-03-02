@@ -20,6 +20,20 @@ class MainProvider extends ChangeNotifier{
   TextEditingController qualificationCT = TextEditingController();
   TextEditingController jobCT = TextEditingController();
 
+  bool yesBool=false;
+  bool noBool=false;
+
+  void married(){
+    yesBool=true;
+    noBool=false;
+    notifyListeners();
+  }
+  void unmarried(){
+    yesBool=false;
+    noBool=true;
+    notifyListeners();
+  }
+
 
   List<String> homeList=['Members Registration','Prayer Time'];
   MainProvider(){
