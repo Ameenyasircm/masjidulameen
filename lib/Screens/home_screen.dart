@@ -105,6 +105,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           child: InkWell(onTap:(){
                             if(index==0){
                               mainProvider.clear();
+                              mainProvider.fetch();
                               callNext(AddMemberScreen(), context);
                             }
                           },

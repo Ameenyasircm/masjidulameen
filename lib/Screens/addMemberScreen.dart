@@ -544,7 +544,7 @@ class AddMemberScreen extends StatelessWidget {
                     child:
                     Consumer<MainProvider>(builder: (context, value, child) {
                       return TextFormField(
-                        // controller: value.subplanNameCT,
+                        controller: value.jobCT,
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
                           // prefixIcon: Image.asset(

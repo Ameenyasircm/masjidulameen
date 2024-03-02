@@ -92,6 +92,40 @@ class MainProvider extends ChangeNotifier{
     db.collection('MEMEBRS').doc(key).set(map,SetOptions(merge: true));
 
   }
+  
+  
+  Future<void> fetch() async {
+    String? strDeviceID= "";
+    try {
+      strDeviceID = await UniqueIdentifier.serial;
+    } on PlatformException {
+      strDeviceID = 'Failed to get Unique Identifier';
+    }
+    db.collection('MEMEBRS').where('DEVICE_ID',isEqualTo: strDeviceID).get().then((value){
+      if(value.docs.isNotEmpty){
+        for(var elemets in value.docs){
+          Map<dynamic,dynamic> map=elemets.data() as Map;
+         nameCT.text= map['NAME'];
+          phoneCT.text=map['PHONE'];
+          locationCT.text= map['LOCATION'];
+          addressCT.text=map['ADDRESS'];
+          kidsCountCT.text=map['NO_OF_KIDS'];
+          adharCT.text=map['ADHAR NO'];
+          educationCT.text= map['EDUCATION'];
+          jobCT.text=map['JOB'];
+          if(map['MARRIED']=='YES'){
+            yesBool=true;
+            noBool=false;
+          }else{
+            yesBool=false;
+            noBool=true;
+          }
+          notifyListeners();
+
+        }
+      }
+    });
+  }
 
 
   Future<void> lockApp() async {
