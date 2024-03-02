@@ -62,7 +62,7 @@ class MainProvider extends ChangeNotifier{
   }
 
 
-  List<String> homeList=['Members Registration','Prayer Time'];
+  List<String> homeList=['Members Registration','Prayer Time','Qibla'];
   MainProvider(){
     lockApp();
   }
