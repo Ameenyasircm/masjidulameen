@@ -11,39 +11,54 @@ class AddMemberScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    MainProvider mainProvider =
+    Provider.of<MainProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton:  Padding(
         padding: const EdgeInsets.only(bottom: 25.0),
-        child: InkWell(onTap: (){
-          final FormState? form = _formKey.currentState;
-          if (form!.validate()) {
+        child: Consumer<MainProvider>(
+          builder: (context,value,child) {
+            return InkWell(onTap: (){
+              final FormState? form = _formKey.currentState;
+              if (form!.validate()) {
+                if(value.yesBool || value.noBool){
+                  mainProvider.addNewMember();
+                  finish(context);
+                }else{
+                  ScaffoldMessenger.of(context)
+                      .showSnackBar(const SnackBar(backgroundColor: Colors.red,
+                    content: Center(child: Text("Please select marriage status",style: TextStyle(fontSize: 16),)),
+                    duration: Duration(milliseconds: 3000),
+                  ));
+                }
+              }
 
+            },
+              child: Container(
+                alignment: Alignment.center,
+                height: 50,
+                width: 324,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    gradient: const LinearGradient(
+                      colors: [
+                        searchBartext,
+                        searchBartext2,
+                      ],
+                    )),
+                child: Text(
+                  'Save',
+                  style: const TextStyle(
+                      color: clFFFFFF,
+                      fontFamily: 'Poppins',
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                ),
+              ),
+            );
           }
-
-        },
-          child: Container(
-            alignment: Alignment.center,
-            height: 50,
-            width: 324,
-            decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(25),
-                gradient: const LinearGradient(
-                  colors: [
-                    searchBartext,
-                    searchBartext2,
-                  ],
-                )),
-            child: Text(
-              'Save',
-              style: const TextStyle(
-                  color: clFFFFFF,
-                  fontFamily: 'Poppins',
-                  fontSize: 14,
-                  fontWeight: FontWeight.w600),
-            ),
-          ),
         ),
       ),
       appBar: AppBar(
@@ -147,6 +162,7 @@ class AddMemberScreen extends StatelessWidget {
                       return TextFormField(
                         controller: value.phoneCT,
                         textAlign: TextAlign.start,
+                        keyboardType: TextInputType.number,
                         maxLength: 10,
                         decoration: InputDecoration(
                           counterText: '',
@@ -418,6 +434,7 @@ class AddMemberScreen extends StatelessWidget {
                     Consumer<MainProvider>(builder: (context, value, child) {
                       return TextFormField(
                         controller: value.adharCT,
+                        keyboardType: TextInputType.number,
                         maxLength: 12,
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
@@ -473,7 +490,7 @@ class AddMemberScreen extends StatelessWidget {
                     child:
                     Consumer<MainProvider>(builder: (context, value, child) {
                       return TextFormField(
-                        // controller: value.subplanNameCT,
+                        controller: value.educationCT,
                         textAlign: TextAlign.start,
                         decoration: InputDecoration(
                           // prefixIcon: Image.asset(

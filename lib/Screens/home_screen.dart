@@ -27,6 +27,8 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
+    MainProvider mainProvider =
+    Provider.of<MainProvider>(context, listen: false);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -102,6 +104,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           padding: const EdgeInsets.only(bottom: 25.0),
                           child: InkWell(onTap:(){
                             if(index==0){
+                              mainProvider.clear();
                               callNext(AddMemberScreen(), context);
                             }
                           },

@@ -1,9 +1,12 @@
+import 'dart:collection';
 import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:unique_identifier/unique_identifier.dart';
 
 import '../constants/strings.dart';
 import '../constants/update.dart';
@@ -16,6 +19,7 @@ class MainProvider extends ChangeNotifier{
   TextEditingController phoneCT = TextEditingController();
   TextEditingController addressCT = TextEditingController();
   TextEditingController adharCT = TextEditingController();
+  TextEditingController educationCT = TextEditingController();
   TextEditingController kidsCountCT = TextEditingController();
   TextEditingController locationCT = TextEditingController();
   TextEditingController qualificationCT = TextEditingController();
@@ -23,6 +27,21 @@ class MainProvider extends ChangeNotifier{
 
   bool yesBool=false;
   bool noBool=false;
+
+  void clear(){
+    nameCT.clear();
+    phoneCT.clear();
+    addressCT.clear();
+    adharCT.clear();
+    educationCT.clear();
+    kidsCountCT.clear();
+    locationCT.clear();
+    qualificationCT.clear();
+    jobCT.clear();
+    yesBool=false;
+    noBool=false;
+    notifyListeners();
+  }
 
   void married(){
     yesBool=true;
@@ -40,6 +59,41 @@ class MainProvider extends ChangeNotifier{
   MainProvider(){
     lockApp();
   }
+
+
+  Future<void> addNewMember() async {
+    print('FHURFR');
+    HashMap<String,Object> map=HashMap();
+    String key=DateTime.now().millisecondsSinceEpoch.toString();
+    map['NAME']=nameCT.text;
+    map['ID']=key;
+    map['PHONE']=phoneCT.text;
+    map['LOCATION']=locationCT.text;
+    map['ADDRESS']=addressCT.text;
+    map['NO_OF_KIDS']=kidsCountCT.text;
+    map['ADHAR NO']=adharCT.text;
+    map['EDUCATION']=educationCT.text;
+    map['JOB']=jobCT.text;
+    if(yesBool){
+      map['MARRIED']='YES';
+    }else{
+      map['MARRIED']='no';
+    }
+    map['ADDED_TIME']=DateTime.now();
+    map['ADDED_TIME_Millis']=DateTime.now().millisecondsSinceEpoch.toString();
+    String? strDeviceID= "";
+    try {
+      strDeviceID = await UniqueIdentifier.serial;
+    } on PlatformException {
+      strDeviceID = 'Failed to get Unique Identifier';
+    }
+    map['DEVICE_ID']=strDeviceID.toString();
+
+    db.collection('MEMEBRS').doc(key).set(map,SetOptions(merge: true));
+
+  }
+
+
   Future<void> lockApp() async {
     await mRootReference.child("0").onValue.listen((event) {
       if (event.snapshot.value != null) {

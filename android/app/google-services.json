@@ -1,14 +1,14 @@
 {
   "project_info": {
-    "project_number": "178593158571",
-    "firebase_url": "https://masjid-553f9-default-rtdb.firebaseio.com",
-    "project_id": "masjid-553f9",
-    "storage_bucket": "masjid-553f9.appspot.com"
+    "project_number": "194086127593",
+    "firebase_url": "https://instagramclone-218a3-default-rtdb.firebaseio.com",
+    "project_id": "instagramclone-218a3",
+    "storage_bucket": "instagramclone-218a3.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:178593158571:android:78888d4db0378149fbeeee",
+        "mobilesdk_app_id": "1:194086127593:android:f5f17389158ab75d04ed78",
         "android_client_info": {
           "package_name": "com.example.instagram_clone"
         }
@@ -16,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyA4G0znqUvW0CxAf1nSta-Qk3fNTNvm1Wk"
+          "current_key": "AIzaSyCaoQfU0u45utA545I7bnDWxdG664PQdJw"
         }
       ],
       "services": {
