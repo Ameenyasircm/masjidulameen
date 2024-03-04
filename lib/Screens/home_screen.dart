@@ -2,6 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:instagram_clone/Screens/loginscreen.dart';
+import 'package:instagram_clone/Screens/registartinsList.dart';
 import 'package:provider/provider.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 
@@ -11,8 +12,8 @@ import '../constants/my_functions.dart';
 import 'addMemberScreen.dart';
 
 class HomeScreen extends StatefulWidget {
-  String loginPhone;
-   HomeScreen({Key? key,required this.loginPhone}) : super(key: key);
+  String loginPhone,type;
+   HomeScreen({Key? key,required this.loginPhone,required this.type}) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -69,7 +70,15 @@ class _HomeScreenState extends State<HomeScreen> {
                         builder: (context,value,child) {
                           return InkWell(
                             onTap: () {
-                              callNext(LoginScreen(from: '', vId: ''), context);
+                              if(widget.type=="ADMIN"){
+                                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(backgroundColor: Colors.green,
+                                  content: Center(child: Text("Already Logined",style: TextStyle(color: Colors.white),)),
+                                  duration: Duration(milliseconds: 3000),
+                                ));
+                              }else{
+                                callNext(LoginScreen(from: '', vId: ''), context);
+                              }
+
                             },
                             child: Container(
                               width: 40,
@@ -132,17 +141,23 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.only(bottom: 25.0),
                             child: InkWell(onTap:(){
                               if(index==0){
-                                mainProvider.clearBool=false;
-                                mainProvider.clear();
-                                // mainProvider.fetch();
-                                callNext(AddMemberScreen(), context);
+                                if(widget.type=="ADMIN"){
+                                  mainProvider.fetchMembersList();
+                                  callNext(RegistrationsListScreen(), context);
+                                }else{
+                                  mainProvider.clearBool=false;
+                                  mainProvider.clear();
+                                  // mainProvider.fetch();
+                                  callNext(AddMemberScreen(), context);
+                                }
+
                               }
                             },
                               child: Container(
                                 padding: const EdgeInsets.all(10),
                                 clipBehavior: Clip.antiAlias,
                                 decoration: ShapeDecoration(
-          
+
                                   color: Colors.white,
                                   shape: RoundedRectangleBorder(
                                     borderRadius:

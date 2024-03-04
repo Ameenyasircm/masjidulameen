@@ -30,20 +30,22 @@ class LoginProvider extends ChangeNotifier {
         "PHONE_NUMBER", isEqualTo: '+91' + phoneNumber.toString()).get().then((
         value) async {
       if (value.docs.isNotEmpty) {
-        if (from == "LOGIN") {
-          print('kasokaodsk');
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('appwrite_token', token);
-          prefs.setString('phone_number', phoneNumber!);
-          prefs.setString('password', password!);
-        }
+        print(' FRKRJF');
         for (var element in value.docs) {
           Map<dynamic, dynamic> map = element.data();
+          if (from == "LOGIN") {
+            print('kasokaodsk');
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('appwrite_token', token);
+            prefs.setString('phone_number', phoneNumber!);
+            prefs.setString('password', password!);
+            prefs.setString('type',  map['TYPE'].toString()!);
+          }
           String name = map['NAME'].toString();
           String id = element.id;
           String phone = map['PHONE_NUMBER'].toString();
           if(password==map['PASSWORD']){
-            callNextReplacement(HomeScreen(loginPhone: phone), context);
+            callNextReplacement(HomeScreen(loginPhone: phone,type: map['TYPE'].toString(),), context);
           }else{
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(backgroundColor: Colors.red,

@@ -9,6 +9,7 @@ import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unique_identifier/unique_identifier.dart';
 
+import '../Models/MemberModel.dart';
 import '../Screens/home_screen.dart';
 import '../constants/my_functions.dart';
 import '../constants/strings.dart';
@@ -111,20 +112,22 @@ class MainProvider extends ChangeNotifier{
         "PHONE_NUMBER", isEqualTo: '+91' + phoneNumber.toString()).get().then((
         value) async {
       if (value.docs.isNotEmpty) {
-        if (from == "LOGIN") {
-          print('kasokaodsk');
-          SharedPreferences prefs = await SharedPreferences.getInstance();
-          prefs.setString('appwrite_token', token);
-          prefs.setString('phone_number', phoneNumber!);
-          prefs.setString('password', password!);
-        }
+
         for (var element in value.docs) {
           Map<dynamic, dynamic> map = element.data();
+          if (from == "LOGIN") {
+            print('kasokaodsk');
+            SharedPreferences prefs = await SharedPreferences.getInstance();
+            prefs.setString('appwrite_token', token);
+            prefs.setString('phone_number', phoneNumber!);
+            prefs.setString('password', password!);
+            prefs.setString('type',  map['TYPE'].toString()!);
+          }
           String name = map['NAME'].toString();
           String id = element.id;
           String phone = map['PHONE_NUMBER'].toString();
           if(password==map['PASSWORD']){
-            callNextReplacement(HomeScreen(loginPhone: phone), context);
+            callNextReplacement(HomeScreen(loginPhone: phone,type: map['TYPE'],), context);
           }else{
             ScaffoldMessenger.of(context)
                 .showSnackBar(const SnackBar(backgroundColor: Colors.red,
@@ -173,6 +176,32 @@ class MainProvider extends ChangeNotifier{
   }
 
 
+  Future<void> fetchWithNo(String id) async {
+    db.collection('MEMEBRS').doc(id).get().then((value){
+      if(value.exists){
+          Map<dynamic,dynamic> map=value.data() as Map;
+          nameCT.text= map['NAME'];
+          phoneCT.text=map['PHONE'];
+          locationCT.text= map['LOCATION'];
+          addressCT.text=map['ADDRESS'];
+          kidsCountCT.text=map['NO_OF_KIDS'];
+          adharCT.text=map['ADHAR NO'];
+          educationCT.text= map['EDUCATION'];
+          jobCT.text=map['JOB'];
+          if(map['MARRIED']=='YES'){
+            yesBool=true;
+            noBool=false;
+          }else{
+            yesBool=false;
+            noBool=true;
+          notifyListeners();
+
+        }
+      }
+    });
+  }
+
+
   Future<void> lockApp() async {
     await mRootReference.child("0").onValue.listen((event) {
       if (event.snapshot.value != null) {
@@ -197,6 +226,23 @@ class MainProvider extends ChangeNotifier{
               text: text,
             ),
           ));
+        }
+      }
+    });
+  }
+  
+  List<MemberModel> memebrsList=[];
+  void fetchMembersList(){
+    print('FNRJRFF KRFN');
+    memebrsList.clear();
+    db.collection('MEMEBRS').orderBy('ADDED_TIME',descending: true).get().then((value){
+      if(value.docs.isNotEmpty){
+        memebrsList.clear();
+        for(var elements in value.docs){
+          Map<dynamic,dynamic> map = elements.data() as Map;
+          memebrsList.add(MemberModel(elements.id, map['NAME'].toString(), map['PHONE'].toString()));
+          print(memebrsList.length.toString()+' FJRR');
+          notifyListeners();
         }
       }
     });

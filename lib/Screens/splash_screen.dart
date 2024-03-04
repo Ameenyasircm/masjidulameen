@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
       var user = prefs.getString("appwrite_token");
       if (user == null) {
-        callNextReplacement(HomeScreen(loginPhone: '',), context);
+        callNextReplacement(HomeScreen(loginPhone: '',type: '',), context);
       }else{
         mainProvider.userAuthorized(prefs.getString("phone_number").toString(), context, "",
             '', prefs.getString("password").toString());
