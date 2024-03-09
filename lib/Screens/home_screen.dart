@@ -148,7 +148,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   mainProvider.clearBool=false;
                                   mainProvider.clear();
                                   // mainProvider.fetch();
-                                  callNext(AddMemberScreen(), context);
+                                  callNext(AddMemberScreen(from: '',id: '',), context);
                                 }
 
                               }

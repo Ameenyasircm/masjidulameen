@@ -75,12 +75,11 @@ class MainProvider extends ChangeNotifier{
   }
 
 
-  Future<void> addNewMember() async {
+  Future<void> addNewMember(String from,String id) async {
     print('FHURFR');
     HashMap<String,Object> map=HashMap();
     String key=DateTime.now().millisecondsSinceEpoch.toString();
     map['NAME']=nameCT.text;
-    map['ID']=key;
     map['PHONE']=phoneCT.text;
     map['LOCATION']=locationCT.text;
     map['ADDRESS']=addressCT.text;
@@ -93,17 +92,29 @@ class MainProvider extends ChangeNotifier{
     }else{
       map['MARRIED']='no';
     }
-    map['ADDED_TIME']=DateTime.now();
-    map['ADDED_TIME_Millis']=DateTime.now().millisecondsSinceEpoch.toString();
-    String? strDeviceID= "";
-    try {
-      strDeviceID = await UniqueIdentifier.serial;
-    } on PlatformException {
-      strDeviceID = 'Failed to get Unique Identifier';
-    }
-    map['DEVICE_ID']=strDeviceID.toString();
 
-    db.collection('MEMEBRS').doc(key).set(map,SetOptions(merge: true));
+    if(from!='edit'){
+      map['ID']=key;
+      map['ADDED_TIME']=DateTime.now();
+      map['ADDED_TIME_Millis']=DateTime.now().millisecondsSinceEpoch.toString();
+      String? strDeviceID= "";
+      try {
+        strDeviceID = await UniqueIdentifier.serial;
+      } on PlatformException {
+        strDeviceID = 'Failed to get Unique Identifier';
+      }
+      map['DEVICE_ID']=strDeviceID.toString();
+    }else{
+      map['EDITTED_TIME']=DateTime.now();
+      map['EDITTED_TIME_Millis']=DateTime.now().millisecondsSinceEpoch.toString();
+    }
+
+
+    if(from=='edit'){
+      db.collection('MEMEBRS').doc(id).set(map,SetOptions(merge: true));
+    }else{
+      db.collection('MEMEBRS').doc(key).set(map,SetOptions(merge: true));
+    }
 
   }
 
@@ -250,7 +261,7 @@ class MainProvider extends ChangeNotifier{
     print('FNRJRFF KRFN');
     memebrsList.clear();
     fileterMemebrsList.clear();
-    db.collection('MEMEBRS').orderBy('ADDED_TIME',descending: true).get().then((value){
+    db.collection('MEMEBRS').orderBy('ADDED_TIME',descending: true).snapshots().listen((value){
       if(value.docs.isNotEmpty){
         memebrsList.clear();
         fileterMemebrsList.clear();

@@ -19,7 +19,7 @@ class RegistrationsListScreen extends StatelessWidget {
     return Scaffold(
       floatingActionButton: InkWell(onTap: (){
         mainProvider.clear();
-        callNext(AddMemberScreen(), context);
+        callNext(AddMemberScreen(from: '',id: '',), context);
       },
         child: CircleAvatar(
           radius: 28,
@@ -145,7 +145,7 @@ class RegistrationsListScreen extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 15.0),
                     child: InkWell(onTap: (){
                       mainProvider.fetchWithNo(item.id);
-                      callNext(AddMemberScreen(), context);
+                      callNext(AddMemberScreen(id: item.id,from: 'edit',), context);
                     },
                       child: Container(
                         padding: const EdgeInsets.all(10),

@@ -7,7 +7,8 @@ import '../Provider/MainProvider.dart';
 import '../constants/my_colors.dart';
 import '../constants/my_functions.dart';
 class AddMemberScreen extends StatelessWidget {
-   AddMemberScreen({Key? key}) : super(key: key);
+  String from,id;
+   AddMemberScreen({Key? key,required this.from,required this.id}) : super(key: key);
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
@@ -25,7 +26,7 @@ class AddMemberScreen extends StatelessWidget {
               final FormState? form = _formKey.currentState;
               if (form!.validate()) {
                 if(value.yesBool || value.noBool){
-                  mainProvider.addNewMember();
+                  mainProvider.addNewMember(from,id);
                   finish(context);
                 }else{
                   ScaffoldMessenger.of(context)
