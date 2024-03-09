@@ -355,6 +355,12 @@ class MainProvider extends ChangeNotifier{
     return d12;
   }
 
+  void deleteitem(String id) {
+    print(id+' EJMFR');
+    db.collection("MEMEBRS").doc(id).delete();
+
+    notifyListeners();
+  }
 
   List<ExcelModel> fethAllData=[];
   void fetchaallData(){

@@ -153,6 +153,9 @@ class RegistrationsListScreen extends StatelessWidget {
                       mainProvider.fetchWithNo(item.id);
                       callNext(AddMemberScreen(id: item.id,from: 'edit',), context);
                     },
+                      onLongPress: (){
+                        DeleteAlert(context,item.id);
+                      },
                       child: Container(
                         padding: const EdgeInsets.all(10),
                         clipBehavior: Clip.antiAlias,
@@ -254,4 +257,145 @@ class RegistrationsListScreen extends StatelessWidget {
       ),
     );
   }
+
+  DeleteAlert(context,String id) async {
+    MainProvider mainProvider =
+    Provider.of<MainProvider>(context, listen: false);
+    return await showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          final width=MediaQuery.of(context).size.width;
+          return AlertDialog(surfaceTintColor: Colors.white,
+            // shadowColor: Colors.transparent,
+            backgroundColor: Colors.white,
+            insetPadding: EdgeInsets.zero,
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(26),
+            ),
+            content: Container(
+              width:width*.70,
+              height: 110,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+
+                // image: const DecorationImage(
+                //   scale: 1.5,
+                //   image: AssetImage('assets/logoForAlert.png',), // Replace with your image asset
+                //   // fit: BoxFit.fill, // Adjust the background size as needed
+                // ),
+              ),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+
+                  const Text(
+                    'Confirm Delete',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 14,
+                      fontFamily: 'JaldiBold',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+
+                  const SizedBox(height:10),
+
+                  const Text(
+                    'Are you sure want to delete?',
+                    style: TextStyle(
+                      color: cl5C5C5C,
+                      fontSize: 12,
+                      fontFamily: 'JaldiBold',
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
+
+                  const SizedBox(height: 20),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Expanded(
+                        flex:1,
+                        child: InkWell(
+                          onTap:(){
+                            Navigator.of(context).pop();
+                          },
+                          child: Container(
+                            alignment:Alignment.center,
+                            height: 35,
+                            decoration: ShapeDecoration(
+                              color: Colors.white,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(34),
+                              ),
+                              shadows: const [
+                                BoxShadow(
+                                  color: Color(0x1C000000),
+                                  blurRadius: 4,
+                                  offset: Offset(0, 2),
+                                  spreadRadius: 0,
+                                )
+                              ],
+                            ),
+                            child: const Text(
+                              'Cancel',
+                              style: TextStyle(
+                                color:cl253068,
+                                fontSize: 12,
+                                fontFamily: 'Poppins',
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(width: 15),
+                      Expanded(
+                          flex:1,
+                          child:InkWell(
+                            onTap:(){
+                              mainProvider.deleteitem(id);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor:Colors.black,
+                                      content: Text("Successfully Deleted ")));
+                              finish(context);
+                            },
+                            child: Container(
+                              height: 35,
+                              alignment:Alignment.center,
+                              decoration: ShapeDecoration(
+                                gradient: const LinearGradient(
+                                  begin: Alignment(-1.00, -0.00),
+                                  end: Alignment(1, 0),
+                                  colors: [    searchBartext,
+                                    searchBartext2,],
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(34),
+                                ),
+                              ),
+                              child: const Text(
+                                'Delete',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 12,
+                                  fontFamily: 'Poppins',
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ),
+                          )
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
+  }
+
 }
