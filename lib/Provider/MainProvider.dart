@@ -29,6 +29,9 @@ class MainProvider extends ChangeNotifier{
   TextEditingController qualificationCT = TextEditingController();
   TextEditingController jobCT = TextEditingController();
 
+
+  TextEditingController searchCT = TextEditingController();
+
   bool clearBool=false;
   bool yesBool=false;
   bool noBool=false;
@@ -230,20 +233,35 @@ class MainProvider extends ChangeNotifier{
       }
     });
   }
+
+  searchFun(String item) {
+    fileterMemebrsList = memebrsList
+        .where((element) =>
+    element.name.toLowerCase().contains(item.toLowerCase()) ||
+        element.id.toString().toLowerCase().contains(item.toLowerCase()) ||
+        element.phone.toLowerCase().contains(item.toLowerCase()))
+        .toList();
+    notifyListeners();
+  }
   
   List<MemberModel> memebrsList=[];
+  List<MemberModel> fileterMemebrsList=[];
   void fetchMembersList(){
     print('FNRJRFF KRFN');
     memebrsList.clear();
+    fileterMemebrsList.clear();
     db.collection('MEMEBRS').orderBy('ADDED_TIME',descending: true).get().then((value){
       if(value.docs.isNotEmpty){
         memebrsList.clear();
+        fileterMemebrsList.clear();
         for(var elements in value.docs){
           Map<dynamic,dynamic> map = elements.data() as Map;
           memebrsList.add(MemberModel(elements.id, map['NAME'].toString(), map['PHONE'].toString()));
           print(memebrsList.length.toString()+' FJRR');
-          notifyListeners();
         }
+        fileterMemebrsList=memebrsList;
+        notifyListeners();
+
       }
     });
   }

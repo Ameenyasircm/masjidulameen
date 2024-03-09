@@ -49,12 +49,78 @@ class RegistrationsListScreen extends StatelessWidget {
             fontFamily: 'Poppins',
           ),
         ),
+        actions: [Icon(Icons.download_outlined)],
       ),
       body: Column(
         children: [
+          Container(
+            margin: const EdgeInsets.symmetric(horizontal: 22),
+            height: 50,
+            decoration: ShapeDecoration(
+              color: Colors.white,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(18.04),
+              ),
+              shadows: const [
+                BoxShadow(
+                  color: Color(0x0A000000),
+                  blurRadius: 5.15,
+                  offset: Offset(0, 2.58),
+                  spreadRadius: 0,
+                )
+              ],
+            ),
+            child: Consumer<MainProvider>(
+                builder: (context, value, child) {
+                  return TextField(
+                    controller: value.searchCT,
+                    textAlign: TextAlign.center,
+                    keyboardType: TextInputType.number,
+                    decoration: InputDecoration(
+                      hintText: "Search with Name/Phone Number",
+                      hintStyle:  TextStyle(
+                        color: cl898989.withOpacity(0.56),
+                        fontSize: 12,
+                        fontFamily: 'Poppins',
+                        fontWeight: FontWeight.w400,
+                      ),
+                      contentPadding: const EdgeInsets.fromLTRB(10, 15, 10, 0),
+                      focusedBorder: InputBorder.none,
+                      enabledBorder: InputBorder.none,
+                      suffixIcon: InkWell(
+                          onTap: () async {
+                            if(value.searchCT.text==""){
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      backgroundColor:Colors.red,
+                                      content: Text("Enter Name/phone to search",)));
+
+                            }else{
+
+                               mainProvider.searchFun(value.searchCT.text.toString());
+
+
+                            }
+                          },
+                          child:  Icon(
+                            Icons.search,
+                            color: cl898989.withOpacity(0.56),
+                          )),
+                    ),
+                    onChanged: (item) {
+                      mainProvider.searchFun(value.searchCT.text.toString());
+                    },
+                    onSubmitted: (txt){
+
+
+                    },
+                  );
+                }),
+          ),
+          SizedBox(height: 15,),
 
           Consumer<MainProvider>(builder: (context, value, child) {
-              return Text('Total Registrations : '+value.memebrsList.length.toString(),
+              return Text('Total Registrations : '+value.fileterMemebrsList.length.toString(),
                   style: TextStyle(
                     color: clBlack,
                     fontSize: 14,
@@ -64,17 +130,17 @@ class RegistrationsListScreen extends StatelessWidget {
             }
           ),
           Consumer<MainProvider>(builder: (context, value, child) {
-            print(value.memebrsList.length.toString()+' FRNFR');
+            print(value.fileterMemebrsList.length.toString()+' FRNFR');
             return ListView.builder(
                 shrinkWrap: true,
                 padding: const EdgeInsets.only(
                   top: 10,
                 ),
-                itemCount: value.memebrsList.length,
+                itemCount: value.fileterMemebrsList.length,
                 physics: const ScrollPhysics(),
                 scrollDirection: Axis.vertical,
                 itemBuilder: (BuildContext context1, int index) {
-                  var item = value.memebrsList[index];
+                  var item = value.fileterMemebrsList[index];
                   return  Padding(
                     padding: const EdgeInsets.only(bottom: 15.0),
                     child: InkWell(onTap: (){
