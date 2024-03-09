@@ -49,7 +49,13 @@ class RegistrationsListScreen extends StatelessWidget {
             fontFamily: 'Poppins',
           ),
         ),
-        actions: [Icon(Icons.download_outlined)],
+        actions: [Padding(
+          padding: const EdgeInsets.only(right: 20.0),
+          child: InkWell(onTap: (){
+            mainProvider.fetchaallData();
+          },
+              child: Icon(Icons.download_outlined,color:Colors.green,size: 30,)),
+        )],
       ),
       body: Column(
         children: [

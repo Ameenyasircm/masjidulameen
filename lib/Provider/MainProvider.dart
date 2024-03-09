@@ -1,14 +1,21 @@
 import 'dart:collection';
 import 'dart:io';
-
+import 'package:flutter/foundation.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unique_identifier/unique_identifier.dart';
+import 'package:universal_html/html.dart' as web_file;
+import 'package:syncfusion_flutter_xlsio/xlsio.dart' as xlsio;
+import 'package:intl/intl.dart';
 
+import '../Models/ExcelModel.dart';
 import '../Models/MemberModel.dart';
 import '../Screens/home_screen.dart';
 import '../constants/my_functions.dart';
@@ -277,4 +284,111 @@ class MainProvider extends ChangeNotifier{
     });
   }
 
+  void createExcel(List<ExcelModel> excelList) async {
+    final xlsio.Workbook workbook = xlsio.Workbook();
+    final xlsio.Worksheet sheet = workbook.worksheets[0];
+    final List<Object> list = [
+      'NAME',
+      'PHONE NUMBER',
+      'LOCATION',
+      'ADDRESS',
+      'MARRIAGE STATUS',
+      'ADHAR NUMBER',
+      'EDUCATION QUALIFICATION',
+      'JOB',
+      'REGISTERED DATE',
+    ];
+    const int firstRow = 1;
+
+    const int firstColumn = 1;
+
+    const bool isVertical = false;
+
+    sheet.importList(list, firstRow, firstColumn, isVertical);
+    int i = 1;
+    for (var element in excelList) {
+      final List<Object> list = [
+        element.name,
+        element.phone,
+        element.location,
+        element.address,
+        element.marrage,
+        element.adharNo,
+        element.education,
+        element.job,
+
+      ];
+      final int firstRow = i;
+
+      const int firstColumn = 1;
+
+      const bool isVertical = false;
+
+      sheet.importList(list, firstRow, firstColumn, isVertical);
+    }
+
+    sheet.getRangeByIndex(1, 1, 1, 4).autoFitColumns();
+    final List<int> bytes = workbook.saveAsStream();
+    workbook.dispose();
+    if(!kIsWeb){
+      final String path = (await getApplicationSupportDirectory()).path;
+      final String fileName = '$path/Output.xlsx';
+      final File file = File(fileName);
+      await file.writeAsBytes(bytes, flush: true);
+      OpenFile.open(fileName);
+    }
+    else{
+
+      var blob = web_file.Blob([bytes], 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet', 'native');
+
+      var anchorElement = web_file.AnchorElement(
+        href: web_file.Url.createObjectUrlFromBlob(blob).toString(),
+      )..setAttribute("download", "data.xlsx")..click();
+    }
+
+  }
+
+  getDate(String millis) {
+    var dt = DateTime.fromMillisecondsSinceEpoch(int.parse(millis));
+
+    var d12 = DateFormat('dd-MMM-yy').format(dt);
+    return d12;
+  }
+
+
+  List<ExcelModel> fethAllData=[];
+  void fetchaallData(){
+    print('FNRJRFF KRFN');
+    fethAllData.clear();
+    db.collection('MEMEBRS').orderBy('ADDED_TIME',descending: true).snapshots().listen((value){
+      if(value.docs.isNotEmpty){
+        fethAllData.clear();
+        for(var elements in value.docs){
+          Map<dynamic,dynamic> map = elements.data() as Map;
+          String married="";
+          if(map['MARRIED']=='YES'){
+            married='YES';
+          }else{
+            married='NO';
+          }
+          fethAllData.add(ExcelModel(
+              elements.id,
+              map['NAME'].toString(),
+              map['PHONE'].toString(),
+              map['LOCATION'].toString(),
+              map['ADDRESS'].toString(),
+              map['ADHAR NO'].toString(),
+              map['EDUCATION'].toString(),
+              map['JOB'].toString(),
+              married,
+            map['ADDED_TIME_Millis'].toString(),
+            map['NO_OF_KIDS'].toString()
+          ));
+        }
+        createExcel(fethAllData);
+        notifyListeners();
+
+      }
+    });
+  }
 }
